@@ -4,7 +4,7 @@ It's starting with a Node.js Recommend to use a 12.18 version. Also you need to 
 
 You need a simlink on valid json file:
 
-### `ln -s /your/path/ /project-directory/`
+### `ln -s /your/path/ /project-directory/src/json/jsonfile.json`
 
 ## Available Scripts
 
