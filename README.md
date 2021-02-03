@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
 It's starting with a Node.js Recommend to use a 12.18 version. Also you need to install the npm.
 
 You need a simlink on valid json file:
