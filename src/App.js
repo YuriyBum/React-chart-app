@@ -27,12 +27,13 @@ let cScale = 120;
 let scaleValueY = 200;
 
 //let socket = new WebSocket("ws://ocs.system-it.pro:3004/json");
-
+//Возможность привязать размер графика к ширине экрана
 const scree = window.innerWidth - (textFrame * 2);
 
 let chartLength = 1200;
 let chartsize = 1200;
 //Функции изменения значений (обработчики интерфейса)
+  //Пауза
 function Pause () {
   if (pause)
   {
@@ -48,7 +49,7 @@ function Pause () {
 
   //socket.send('pause');
 }
-
+ //Изменение диапазона значений на графике
 function Scaler () {
  cScale = document.getElementById("scaleF").value;
 
@@ -71,7 +72,7 @@ scaleValueY = document.getElementById("scaleY").value;
 
 //Скрипт графика
 class LineChart extends React.Component {
-
+//Состояния объекта
   constructor(props) {
 super(props);
  this.state = {
@@ -91,7 +92,7 @@ componentDidMount() {
 
 
   //let socket = new WebSocket("ws://ocs.system-it.pro:3004/json");
-
+ //Установление соединения при создании компонента графика
   this.socket.onopen = function() {
     console.log("Соединение установлено");
   };
@@ -102,7 +103,7 @@ componentDidMount() {
     positions.push(avgY);
     positionsX.push(avgY);
   }
-
+ //Таймер отправляет сообщения на сервере. Обновление графика привязано к сообщению
   this.socket.onmessage = (event) => {
     positions = this.state.positionY;
 
@@ -110,7 +111,7 @@ componentDidMount() {
     if (positions.length >= chartLength) {
       positions.shift();
     }
-
+    //Удаляем точку, выпадающую за интервал отображения
     if (positionsX.length >= chartLength) {
       positionsX.shift();
     }
@@ -118,7 +119,7 @@ componentDidMount() {
     // Проверка частоты графика: if (!pause) {let date = new Date(); console.log("message " + date);}
 
     let posX = 0, posY = 0, position = null;
-
+    //Можно реализовать 2 графика
     try{
 
     position = JSON.parse(event.data);
@@ -130,7 +131,7 @@ componentDidMount() {
 
     //console.log(posY);
 
-    //console.log(event.data);
+    //Добавляем новую точку на графике
     positions.push(((posY) / scaleValueY) + parseInt(chartOffset));
 
     //positionsX.push(((posX) / scaleValueY) + parseInt(chartOffset));
@@ -165,7 +166,7 @@ componentDidMount() {
 //  setInterval(() => this.updatePosition(), 500);
      }
 
-
+   //SVG код графика на основе массива точек
   render() {
     const strColor = 'blue';
     const frameColor = '#dce1e6';
@@ -190,6 +191,7 @@ componentDidMount() {
         //let valN = (180 * (parseInt(val)/ this.state.maxPositions)) + parseInt(startValue);
         let valN = parseInt(val);
         let xfirst = textFrame + ((xpos - 1) * chartSpeed);
+        //Добавляем линию графика, соединяющую следующую точку с предыдущей
         innerS.push(<line x1={xfirst} y1={valC} x2={textFrame + (xpos * chartSpeed)} y2={valN} strokeWidth={1} stroke={strColor} key={xfirst + ' ' + strColor}/>);
         //this.setState({
         //  lastValue: valN
